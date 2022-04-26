@@ -1,5 +1,7 @@
 package Java_OOP_Project.StarWars;
 
+import java.util.Objects;
+
 public class Jedi {
     private final String name;
     private String rank;
@@ -49,5 +51,29 @@ public class Jedi {
 
     public void setForce(double force) {
         this.force = force;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Jedi jedi = (Jedi) o;
+        return age == jedi.age && Double.compare(jedi.force, force) == 0 &&
+                Objects.equals(name, jedi.name) && Objects.equals(rank, jedi.rank) &&
+                Objects.equals(saberColor, jedi.saberColor);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, rank, age, saberColor, force);
+    }
+
+    @Override
+    public String toString() {
+        return "Jedi " + name + '\'' +
+                ", rank: " + rank + '\'' +
+                ", age: " + age +
+                ", Saber color: " + saberColor + '\'' +
+                ", Force power: " + force;
     }
 }
