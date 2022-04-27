@@ -2,16 +2,22 @@ package Java_OOP_Project.StarWars;
 
 import java.util.*;
 
-public class Controller {
-    private Set<Planet> planets;
+public class Controller implements printInfo{
+    private List<Planet> planets;
     private List<Jedi> jedies;
 
     public Controller() {
-        this.planets = new HashSet<>();
+        this.planets = new ArrayList<>();
         this.jedies = new ArrayList<>();
     }
 
     public void add_planet(String planetName) {
+        for (Planet p: planets) {
+            if (p.getName().equals(planetName)) {
+                return;
+            }
+        }
+
         planets.add(new Planet(planetName));
     }
 
@@ -76,4 +82,37 @@ public class Controller {
             return "No such planet as " + planetName + '.';
         }
     }
+
+    public String promoteJedi(String jediName, double multiplier) {
+        return "";
+    }
+
+    public String demoteJedi(String jediName, double multiplier) {
+        return "";
+    }
+
+    public String getStrongestJedi(String planetName) {
+        return "";
+    }
+
+    public String getYoungestJedi(String planetName, String jediRank) {
+        return "";
+    }
+
+    public String getMostUsedSaberColor(String planetName, String jediRank) {
+        return "";
+    }
+
+    public String getMostUsedSaberColor(String planetName) {
+        return "";
+    }
+    @Override
+    public String print(String name) {
+        return "";
+    }
+
+//    @Override
+//    public String print(String name) {
+//        return "";
+//    }
 }

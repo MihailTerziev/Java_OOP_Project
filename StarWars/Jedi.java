@@ -3,7 +3,7 @@ package Java_OOP_Project.StarWars;
 import java.util.Objects;
 
 public class Jedi {
-    private final String name;
+    private String name;
     private String rank;
     private int age;
     private String saberColor;
@@ -21,19 +21,46 @@ public class Jedi {
         return name;
     }
 
+    public void setName(String name) throws InvalidDataException {
+        if (name.isEmpty()) {
+            throw new InvalidDataException("Name of jedi cannot be empty!");
+        }
+        this.name = name;
+    }
+
     public String getRank() {
         return rank;
     }
 
-    public void setRank(String rank) {
-        this.rank = rank;
+    public void setRank(String rank) throws InvalidDataException {
+        if (!rank.isEmpty() && (rank.equalsIgnoreCase("YOUNGLING") ||
+                rank.equalsIgnoreCase("INITIATE") ||
+                        rank.equalsIgnoreCase("PADAWAN") ||
+                                rank.equalsIgnoreCase("KNIGHT-ASPIRANT") ||
+                                        rank.equalsIgnoreCase("KNIGHT") ||
+                                                rank.equalsIgnoreCase("MASTER") ||
+                                                        rank.equalsIgnoreCase("BATTLE_MASTER") ||
+                                                                rank.equalsIgnoreCase("GRAND_MASTER")))
+        {
+            this.rank = rank;
+        }
+        else
+        {
+            throw new InvalidDataException("""
+                    Jedi rank must be one of the titles:
+                    YOUNGLING, INITIATE, PADAWAN, KNIGHT-ASPIRANT, 
+                    KNIGHT, MASTER, BATTLE_MASTER и GRAND_MASTER""");
+        }
     }
 
     public int getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(int age) throws InvalidDataException {
+        if (age < 5) {
+            throw new InvalidDataException("Apprentice must be at least 5 years old to start jedi training!");
+        }
         this.age = age;
     }
 
@@ -41,15 +68,27 @@ public class Jedi {
         return saberColor;
     }
 
-    public void setSaberColor(String saberColor) {
-        this.saberColor = saberColor;
+    public void setSaberColor(String saberColor) throws InvalidDataException {
+        if (!saberColor.isEmpty() && (saberColor.equalsIgnoreCase("blue") ||
+                saberColor.equalsIgnoreCase("green") ||
+                saberColor.equalsIgnoreCase("yellow") ||
+                saberColor.equalsIgnoreCase("purple")))
+        {
+            this.saberColor = saberColor;
+        }
+        else {
+            throw new InvalidDataException("Saber color must be accurate!");
+        }
     }
 
     public double getForce() {
         return force;
     }
 
-    public void setForce(double force) {
+    public void setForce(double force) throws InvalidDataException {
+        if (force < 0) {
+            throw new InvalidDataException("Force power must be positive number!");
+        }
         this.force = force;
     }
 

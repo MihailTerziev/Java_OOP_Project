@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Planet {
-    private final String name;
+    private String name;
     private List<Jedi> jedies;
 
     public Planet(String name) {
@@ -15,6 +15,13 @@ public class Planet {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) throws InvalidDataException {
+        if (name.isEmpty()) {
+            throw new InvalidDataException("Name of planet cannot be empty!");
+        }
+        this.name = name;
     }
 
     public List<Jedi> getJedies() {
