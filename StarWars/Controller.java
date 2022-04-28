@@ -2,7 +2,7 @@ package Java_OOP_Project.StarWars;
 
 import java.util.*;
 
-public class Controller implements printInfo{
+public class Controller {
     private List<Planet> planets;
     private List<Jedi> jedies;
 
@@ -106,13 +106,4 @@ public class Controller implements printInfo{
     public String getMostUsedSaberColor(String planetName) {
         return "";
     }
-    @Override
-    public String print(String name) {
-        return "";
-    }
-
-//    @Override
-//    public String print(String name) {
-//        return "";
-//    }
 }
