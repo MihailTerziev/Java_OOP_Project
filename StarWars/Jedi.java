@@ -33,22 +33,21 @@ public class Jedi {
     }
 
     public void setRank(String rank) throws InvalidDataException {
-        if (!rank.isEmpty() && (rank.equalsIgnoreCase("YOUNGLING") ||
-                rank.equalsIgnoreCase("INITIATE") ||
-                        rank.equalsIgnoreCase("PADAWAN") ||
-                                rank.equalsIgnoreCase("KNIGHT-ASPIRANT") ||
-                                        rank.equalsIgnoreCase("KNIGHT") ||
-                                                rank.equalsIgnoreCase("MASTER") ||
-                                                        rank.equalsIgnoreCase("BATTLE_MASTER") ||
-                                                                rank.equalsIgnoreCase("GRAND_MASTER")))
-        {
-            this.rank = rank;
+        boolean correctRank = false;
+
+        if (!rank.isEmpty()) {
+            for (JediRanks var: JediRanks.values()) {
+                if (var.toString().equals(rank)) {
+                    this.rank = rank;
+                    correctRank = true;
+                }
+            }
         }
-        else
-        {
+
+        if(!correctRank) {
             throw new InvalidDataException("""
                     Jedi rank must be one of the titles:
-                    YOUNGLING, INITIATE, PADAWAN, KNIGHT-ASPIRANT, 
+                    YOUNGLING, INITIATE, PADAWAN, KNIGHT_ASPIRANT, 
                     KNIGHT, MASTER, BATTLE_MASTER и GRAND_MASTER""");
         }
     }
