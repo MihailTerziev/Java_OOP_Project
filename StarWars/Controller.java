@@ -192,7 +192,7 @@ public class Controller {
         }
 
         if (jedies.isEmpty()) {
-            return "There are no jedies of that rank on this planet.";
+            return "There are no jedies of that rank on planet" + planetName + ".";
         }
 
         List<Map.Entry<Jedi, Integer>> jediesList = new ArrayList<>(jedies.entrySet());
@@ -222,7 +222,7 @@ public class Controller {
         }
 
         if (!correctRank) {   // if rank is incorrect, return
-            return "Incorrect rank!";
+            return "Incorrect rank! " + jediRank;
         }
 
         Map<String, Integer> colors = new HashMap<>();
@@ -253,7 +253,7 @@ public class Controller {
         }
 
         if (colors.isEmpty()) {
-            return "There are no GRAND_MASTER jedies on this planet.";
+            return "There are no " + jediRank + " jedies on planet" + planetName + ".";
         }
 
         List<Map.Entry<String, Integer>> colorsList = new ArrayList<>(colors.entrySet());
@@ -263,40 +263,53 @@ public class Controller {
     }
 
     public String getMostUsedSaberColor(String planetName) {
-        Map<String, Integer> colors = new HashMap<>();
-        boolean planetExists = false;
+        return getMostUsedSaberColor(planetName, "GRAND_MASTER");
+//        Map<String, Integer> colors = new HashMap<>();
+//        boolean planetExists = false;
+//
+//        for (Planet p: planets) {
+//            if (p.getName().equals(planetName)) {
+//                planetExists = true;
+//
+//                for (Jedi j: p.getJedies()) {
+//                    if (j.getRank().equals("GRAND_MASTER")) {
+//                        if (colors.containsKey(j.getSaberColor())) {
+//                            int counter = colors.get(j.getSaberColor());
+//                            colors.replace(j.getSaberColor(), counter, counter + 1);
+//                        }
+//                        else {
+//                            colors.put(j.getSaberColor(), 0);
+//                        }
+//                    }
+//                }
+//
+//                break;   // when all jedies on the planet are checked, break from loop
+//            }
+//        }
+//
+//        if (!planetExists) {
+//            return "No such planet as " + planetName + '.';
+//        }
+//
+//        if (colors.isEmpty()) {
+//            return "There are no GRAND_MASTER jedies on this planet.";
+//        }
+//
+//        List<Map.Entry<String, Integer>> colorsList = new ArrayList<>(colors.entrySet());
+//        colorsList.sort(Map.Entry.comparingByValue());  // convert map to list and sort
+//
+//        return colorsList.get(colorsList.size()-1).getKey();  // return most used saber color
+    }
 
+    private String findJediLocation(String jediName) {
         for (Planet p: planets) {
-            if (p.getName().equals(planetName)) {
-                planetExists = true;
-
-                for (Jedi j: p.getJedies()) {
-                    if (j.getRank().equals("GRAND_MASTER")) {
-                        if (colors.containsKey(j.getSaberColor())) {
-                            int counter = colors.get(j.getSaberColor());
-                            colors.replace(j.getSaberColor(), counter, counter + 1);
-                        }
-                        else {
-                            colors.put(j.getSaberColor(), 0);
-                        }
-                    }
+            for (Jedi j: p.getJedies()) {
+                if (j.getName().equals(jediName)) {
+                    return p.getName();
                 }
-
-                break;   // when all jedies on the planet are checked, break from loop
             }
         }
 
-        if (!planetExists) {
-            return "No such planet as " + planetName + '.';
-        }
-
-        if (colors.isEmpty()) {
-            return "There are no GRAND_MASTER jedies on this planet.";
-        }
-
-        List<Map.Entry<String, Integer>> colorsList = new ArrayList<>(colors.entrySet());
-        colorsList.sort(Map.Entry.comparingByValue());  // convert map to list and sort
-
-        return colorsList.get(colorsList.size()-1).getKey();  // return most used saber color
+        return "";
     }
 }
