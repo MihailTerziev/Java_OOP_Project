@@ -21,7 +21,7 @@ public class MainClass {
 
         System.out.println(con.getMostUsedSaberColor("Duran"));
         System.out.println(con.getMostUsedSaberColor("Duran", "PADAWAN"));
-        System.out.println(con.getMostUsedSaberColor("Duran", "dsfs"));
+        System.out.println(con.getMostUsedSaberColor("Duran", "moon"));
 
         System.out.println(con.getYoungestJedi("Duran", "PADAWAN"));
         System.out.println(con.getStrongestJedi("Duran"));
@@ -35,5 +35,9 @@ public class MainClass {
 
         System.out.println(con.removeJedi("Name5", "tu_varna"));
         System.out.println(con.removeJedi("Name5", "Duran"));
+
+        System.out.println(con.print("Duran"));
+        System.out.println(con.print("Yoda"));
+        System.out.println(con.add("Duran", "Patos"));
     }
 }

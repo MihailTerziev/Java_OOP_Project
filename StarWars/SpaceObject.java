@@ -1,8 +1,6 @@
 package Java_OOP_Project.StarWars;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public abstract class SpaceObject {
     private String name;
@@ -37,15 +35,35 @@ public abstract class SpaceObject {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SpaceObject that = (SpaceObject) o;
-        return Objects.equals(name, that.name);
-    }
+    public String toString() {
+        StringBuilder output = new StringBuilder();
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
+        Map<String, String> jediesInfo = new HashMap<>();
+
+        for (Jedi j: this.jedies) {   // if jedi has the wanted rank, count the saber color
+            jediesInfo.put(j.getRank(), j.getName());
+        }
+
+        if (jediesInfo.isEmpty()) {
+            output.append("none\n");
+        }
+        else {
+            List<Map.Entry<String, String>> jediesInfoList = new ArrayList<>(jediesInfo.entrySet());
+
+//            jediesInfoList.sort(Map.Entry.comparingByKey());
+            jediesInfoList.sort(Map.Entry.comparingByValue());
+
+            for (Jedi j : this.jedies) {
+                for (Map.Entry<String, String> var : jediesInfoList) {
+                    if (var.getValue().equals(j.getName())) {
+                        output.append(j).append('\n');
+                        break;
+                    }
+                }
+            }
+        }
+
+        output.deleteCharAt(output.length()-1);
+        return output.toString();
     }
 }

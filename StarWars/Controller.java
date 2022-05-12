@@ -22,8 +22,7 @@ public class Controller {
     }
 
     public String create_jedi(String planetName, String jediName, String jediRank,
-                              int jediAge , String saberColor, double jediStrength)
-    {
+                              int jediAge , String saberColor, double jediStrength) throws InvalidDataException {
         for (Jedi j: jedies) {
             if (j.getName().equals(jediName)) {   // check if jedi exists
                 return "Jedi " + jediName + " already exists.";
@@ -40,6 +39,7 @@ public class Controller {
                 }
 
                 Jedi jedi = new Jedi(jediName, jediRank, jediAge, saberColor, jediStrength);
+                jedi.setLocation(p.getName());  // set location
                 p.addJedi(jedi);              // create and add jedi
                 jedies.add(jedi);
                 return "Jedi " + jediName + " has landed on planet " + planetName + ".";
@@ -56,24 +56,27 @@ public class Controller {
         for (Planet p: planets) {
             if (p.getName().equals(planetName)) {
                 planetExists = true;
-                if (p.getJedies().removeIf(jedi -> jedi.getName().equals(jediName))) {
-                    jediExists = true;   // remove jedi if he/she is on the planet
-                    break;
+
+                for (Jedi j: p.getJedies()) {
+                    if (j.getName().equals(jediName)) {
+                        jediExists = true;
+                        p.removeJedi(j);    // remove jedi if he/she is on the planet
+                        break;
+                    }
+                }
+            }
+
+            if (planetExists) {
+                if (jediExists) {
+                    return  "Jedi " + jediName + " has left planet " + planetName + ".";
+                }
+                else {
+                    return "No such jedi as " + jediName + " on planet " + planetName + ".";
                 }
             }
         }
 
-        if (planetExists) {
-            if (jediExists) {
-                return  "Jedi " + jediName + " has left planet " + planetName + ".";
-            }
-            else {
-                return "No such jedi as " + jediName + " on planet " + planetName + ".";
-            }
-        }
-        else {
-            return "No such planet as " + planetName + '.';
-        }
+        return "No such planet as " + planetName + '.';
     }
 
     private String getUpperRank(String currentRank) {
@@ -264,52 +267,55 @@ public class Controller {
 
     public String getMostUsedSaberColor(String planetName) {
         return getMostUsedSaberColor(planetName, "GRAND_MASTER");
-//        Map<String, Integer> colors = new HashMap<>();
-//        boolean planetExists = false;
-//
-//        for (Planet p: planets) {
-//            if (p.getName().equals(planetName)) {
-//                planetExists = true;
-//
-//                for (Jedi j: p.getJedies()) {
-//                    if (j.getRank().equals("GRAND_MASTER")) {
-//                        if (colors.containsKey(j.getSaberColor())) {
-//                            int counter = colors.get(j.getSaberColor());
-//                            colors.replace(j.getSaberColor(), counter, counter + 1);
-//                        }
-//                        else {
-//                            colors.put(j.getSaberColor(), 0);
-//                        }
-//                    }
-//                }
-//
-//                break;   // when all jedies on the planet are checked, break from loop
-//            }
-//        }
-//
-//        if (!planetExists) {
-//            return "No such planet as " + planetName + '.';
-//        }
-//
-//        if (colors.isEmpty()) {
-//            return "There are no GRAND_MASTER jedies on this planet.";
-//        }
-//
-//        List<Map.Entry<String, Integer>> colorsList = new ArrayList<>(colors.entrySet());
-//        colorsList.sort(Map.Entry.comparingByValue());  // convert map to list and sort
-//
-//        return colorsList.get(colorsList.size()-1).getKey();  // return most used saber color
     }
 
-    private String findJediLocation(String jediName) {
-        for (Planet p: planets) {
-            for (Jedi j: p.getJedies()) {
-                if (j.getName().equals(jediName)) {
-                    return p.getName();
+    public String print(String name) {
+        String output = null;
+        boolean flag = false;
+
+        for (Jedi j: jedies) {
+            if (j.getName().equals(name)) {
+                output = j.toString();
+                flag = true;
+                break;
+            }
+        }
+
+        if (!flag) {
+            for (Planet p: planets) {
+                if (p.getName().equals(name)) {
+                    output = p.toString();
+                    break;
                 }
             }
         }
 
-        return "";
+        return output;
+    }
+
+    private String sortAlpha(List<Jedi> jedies) {
+        StringBuilder output = new StringBuilder();
+        jedies.sort(Comparator.comparing(Jedi::getName));
+
+        for (Jedi j: jedies) {
+            output.append(j).append('\n');
+        }
+
+        return output.toString();
+    }
+
+    public String add(String planetOne, String planetTwo) {
+        StringBuilder output = new StringBuilder();
+
+        for (Planet p: planets) {
+            if (p.getName().equals(planetOne)) {
+                output.append("Planet: ").append(p.getName()).append("\nJedies:\n").append(sortAlpha(p.getJedies()));
+            }
+            if (p.getName().equals(planetTwo)) {
+                output.append("Planet: ").append(p.getName()).append("\nJedies:\n").append(sortAlpha(p.getJedies()));
+            }
+        }
+
+        return output.toString();
     }
 }

@@ -8,6 +8,7 @@ public class Jedi {
     private int age;
     private String saberColor;
     private double force;
+    private String location;
 
     public Jedi(String name, String rank, int age, String saberColor, double force) {
         this.name = name;
@@ -91,27 +92,21 @@ public class Jedi {
         this.force = force;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Jedi jedi = (Jedi) o;
-        return age == jedi.age && Double.compare(jedi.force, force) == 0 &&
-                Objects.equals(name, jedi.name) && Objects.equals(rank, jedi.rank) &&
-                Objects.equals(saberColor, jedi.saberColor);
+    public String getLocation() {
+        return location;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, rank, age, saberColor, force);
+    public void setLocation(String location) throws InvalidDataException {
+        if (location.isEmpty()) {
+            throw new InvalidDataException("Jedi must have location!");
+        }
+        this.location = location;
     }
 
     @Override
     public String toString() {
-        return "Jedi " + name + '\'' +
-                ", rank: " + rank + '\'' +
-                ", age: " + age +
-                ", Saber color: " + saberColor + '\'' +
-                ", Force power: " + force;
+        return "Jedi " + name + ", rank: " + rank +
+                ", age: " + age + ", Saber color: " + saberColor +
+                ", Force power: " + force + ", Location: " + location;
     }
 }
