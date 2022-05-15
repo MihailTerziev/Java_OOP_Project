@@ -11,17 +11,18 @@ public class Controller {
         this.jedies = new ArrayList<>();
     }
 
-    public void add_planet(String planetName) {
+    public String addPlanet(String planetName) {
         for (Planet p: planets) {
             if (p.getName().equals(planetName)) {   // check if planet exists
-                return;
+                return "Planet " + planetName + " is already added!";
             }
         }
 
         planets.add(new Planet(planetName));   // add new planet
+        return "Added planet " + planetName + '.';
     }
 
-    public String create_jedi(String planetName, String jediName, String jediRank,
+    public String createJedi(String planetName, String jediName, String jediRank,
                               int jediAge , String saberColor, double jediStrength) throws InvalidDataException {
         for (Jedi j: jedies) {
             if (j.getName().equals(jediName)) {   // check if jedi exists
@@ -81,7 +82,7 @@ public class Controller {
 
     private String getUpperRank(String currentRank) {
         for (int i = 0; i < JediRanks.values().length; ++i) {
-            if (JediRanks.values()[i].toString().equals(currentRank)) {
+            if (JediRanks.values()[i].toString().equalsIgnoreCase(currentRank)) {
                 return JediRanks.values()[i+1].toString();  // find and return next rank
             }
         }
@@ -98,7 +99,7 @@ public class Controller {
 
         for (Jedi j: jedies) {
             if (j.getName().equals(jediName)) {
-                if (j.getRank().equals("GRAND_MASTER")) {
+                if (j.getRank().equalsIgnoreCase("GRAND_MASTER")) {
                     return "Jedi " + jediName + " is highest rank. Can't be promoted.";
                 }
 
@@ -119,7 +120,7 @@ public class Controller {
 
     private String getLowerRank(String currentRank) {
         for (int i = 0; i < JediRanks.values().length; ++i) {
-            if (JediRanks.values()[i].toString().equals(currentRank)) {
+            if (JediRanks.values()[i].toString().equalsIgnoreCase(currentRank)) {
                 return JediRanks.values()[i - 1].toString();  // find and return lower rank
             }
         }
@@ -136,7 +137,7 @@ public class Controller {
 
         for (Jedi j: jedies) {
             if (j.getName().equals(jediName)) {
-                if (j.getRank().equals("YOUNGLING")) {
+                if (j.getRank().equalsIgnoreCase("YOUNGLING")) {
                     return "Jedi " + jediName + " is lowes rank. Can't be demoted.";
                 }
 
@@ -172,7 +173,7 @@ public class Controller {
         }
 
         if (strongestJedi != null) {   // the planet may not have jedies, so we check for any jedi
-            return strongestJedi.toString();
+            return "Strongest jedi: " + strongestJedi.toString();
         }
 
         return "Planet " + planetName + " has no jedies.";
@@ -185,7 +186,7 @@ public class Controller {
             if (p.getName().equals(planetName)) {
 
                 for (Jedi j: p.getJedies()) {
-                    if (j.getRank().equals(jediRank)) {   // if jedi has the wanted rank, add him with his age
+                    if (j.getRank().equalsIgnoreCase(jediRank)) {   // if jedi has the wanted rank, add him with his age
                         jedies.put(j, j.getAge());
                     }
                 }
@@ -195,7 +196,7 @@ public class Controller {
         }
 
         if (jedies.isEmpty()) {
-            return "There are no jedies of that rank on planet" + planetName + ".";
+            return "There are no jedies of that rank on planet " + planetName + ".";
         }
 
         List<Map.Entry<Jedi, Integer>> jediesList = new ArrayList<>(jedies.entrySet());
@@ -211,14 +212,14 @@ public class Controller {
         }
 
         sameAgeJedies.sort(Comparator.comparing(Jedi::getName));   // sort jedies alphabetically by name
-        return "Youngest jedi on planet " +  planetName + " is " + sameAgeJedies.get(0).toString();
+        return "Youngest jedi: " + sameAgeJedies.get(0).toString();
     }
 
     public String getMostUsedSaberColor(String planetName, String jediRank) {
         boolean correctRank = false;
 
         for (JediRanks var: JediRanks.values()) {   // check if rank exists
-            if (var.toString().equals(jediRank)) {
+            if (var.toString().equalsIgnoreCase(jediRank)) {
                 correctRank = true;
                 break;
             }
@@ -236,7 +237,7 @@ public class Controller {
                 planetExists = true;
 
                 for (Jedi j: p.getJedies()) {
-                    if (j.getRank().equals(jediRank)) {   // if jedi has the wanted rank, count the saber color
+                    if (j.getRank().equalsIgnoreCase(jediRank)) {   // if jedi has the wanted rank, count the saber color
                         if (colors.containsKey(j.getSaberColor())) {
                             int counter = colors.get(j.getSaberColor());
                             colors.replace(j.getSaberColor(), counter, counter + 1);

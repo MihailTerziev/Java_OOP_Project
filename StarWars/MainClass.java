@@ -1,43 +1,111 @@
 package Java_OOP_Project.StarWars;
 
+import java.util.Scanner;
+
 public class MainClass {
-    public static void main(String[] args) throws InvalidDataException {
+    public static void main(String[] args) throws InvalidDataException  {
         Controller con = new Controller();
+        FileManipulator operation = new FileManipulator();
 
-        con.add_planet("tu_varna");
-        con.add_planet("Duran");
-        con.add_planet("Patos");
+        System.out.print("Star Wars > ");
+        Scanner input = new Scanner(System.in);
+        String line = input.nextLine();
 
-        System.out.println(con.create_jedi("Duran", "Obi-wan", "MASTER", 38, "blue", 120));
-        System.out.println(con.create_jedi("Patos", "Yoda", "GRAND_MASTER", 300, "green", 250));
-        System.out.println(con.create_jedi("Duran", "Luke", "PADAWAN", 18, "blue", 50));
-        System.out.println(con.create_jedi("Duran", "Sasha", "YOUNGLING", 15, "blue", 20));
-        System.out.println(con.create_jedi("Duran", "Name1", "PADAWAN", 17, "blue", 60.5));
-        System.out.println(con.create_jedi("Duran", "Name2", "PADAWAN", 16, "blue", 34));
-        System.out.println(con.create_jedi("Duran", "Name3", "KNIGHT_ASPIRANT", 20, "blue", 180));
-        System.out.println(con.create_jedi("Duran", "Name4", "KNIGHT", 18, "blue", 200));
-        System.out.println(con.create_jedi("Duran", "Name5", "PADAWAN", 19, "blue", 46.8));
-        System.out.println(con.create_jedi("Duran", "Name6", "PADAWAN", 14, "blue", 57.9));
+        while (true) {
+            String[] argsArr = line.split(" ");
+            String command = argsArr[0];
 
-        System.out.println(con.getMostUsedSaberColor("Duran"));
-        System.out.println(con.getMostUsedSaberColor("Duran", "PADAWAN"));
-        System.out.println(con.getMostUsedSaberColor("Duran", "moon"));
+            switch (command) {
+                case "open":
+                    System.out.println(operation.open(argsArr[1]));
+                    break;
 
-        System.out.println(con.getYoungestJedi("Duran", "PADAWAN"));
-        System.out.println(con.getStrongestJedi("Duran"));
-        System.out.println(con.getStrongestJedi("Patos"));
+                case "close":
+                    System.out.println(operation.close(argsArr[1]));
+                    break;
 
-        System.out.println(con.promoteJedi("Name4", 1.25));
-        System.out.println(con.promoteJedi("Yoda", 1.20));
-        System.out.println(con.demoteJedi("Sasha", 1.25));
-        System.out.println(con.promoteJedi("Sasha", 2));
-        System.out.println(con.demoteJedi("Obi-wan", 0.2));
+                case "save":
+                    System.out.println(operation.save(argsArr[1]));
+                    break;
 
-        System.out.println(con.removeJedi("Name5", "tu_varna"));
-        System.out.println(con.removeJedi("Name5", "Duran"));
+                case "saveas":
+                    System.out.println(operation.saveAs(argsArr[1]));
+                    break;
 
-        System.out.println(con.print("Duran"));
-        System.out.println(con.print("Yoda"));
-        System.out.println(con.add("Duran", "Patos"));
+                case "help":
+                    System.out.println(operation.help());
+                    break;
+
+                case "exit":
+                    System.out.println("Exiting the program...");
+                    System.exit(0);
+                    break;
+
+                case "add_planet":
+                    System.out.println(con.addPlanet(argsArr[1]));
+                    break;
+
+                case "create_jedi":
+                    String planetName = argsArr[1];
+                    String jediName = argsArr[2];
+                    String jediRank = argsArr[3];
+                    int jediAge = Integer.parseInt(argsArr[4]);
+                    String saberColor = argsArr[5];
+                    double jediStrength = Double.parseDouble(argsArr[6]);
+
+                    System.out.println(con.createJedi(planetName, jediName,
+                                   jediRank, jediAge, saberColor, jediStrength));
+                    break;
+
+                case "remove_jedi":
+                    System.out.println(con.removeJedi(argsArr[1], argsArr[2]));
+                    break;
+
+                case "promote_jedi":
+                    jediName = argsArr[1];
+                    double multiplier = Double.parseDouble(argsArr[2]);
+                    System.out.println(con.promoteJedi(jediName, multiplier));
+                    break;
+
+                case "demote_jedi":
+                    jediName = argsArr[1];
+                    multiplier = Double.parseDouble(argsArr[2]);
+                    System.out.println(con.demoteJedi(jediName, multiplier));
+                    break;
+
+                case "get_strongest_jedi":
+                    System.out.println(con.getStrongestJedi(argsArr[1]));
+                    break;
+
+                case "get_youngest_jedi":
+                    System.out.println(con.getYoungestJedi(argsArr[1], argsArr[2]));
+                    break;
+
+                case "get_most_used_saber_color":
+                    if (argsArr.length == 2) {
+                        System.out.println(con.getMostUsedSaberColor(argsArr[1]));
+                    }
+                    else {
+                        System.out.println(con.getMostUsedSaberColor(argsArr[1], argsArr[2]));
+                    }
+                    break;
+
+                case "print":
+                    System.out.println(con.print(argsArr[1]));
+                    break;
+
+                default:
+                    if (!argsArr[1].equals("+")) {
+                        System.out.println("Incorrect command! Try again!");
+                    }
+            }
+
+            if (argsArr.length == 3 && argsArr[1].equals("+")) {
+                System.out.println(con.add(argsArr[0], argsArr[2]));
+            }
+
+            System.out.print("\nStar Wars > ");
+            line = input.nextLine();
+        }
     }
 }

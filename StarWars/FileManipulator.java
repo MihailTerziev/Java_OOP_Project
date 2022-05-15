@@ -11,11 +11,11 @@ public class FileManipulator {
         return "Successfully opened ";
     }
 
-    public String close() {
+    public String close(String path) {
         return "Successfully closed ";
     }
 
-    public String save() {
+    public String save(String path) {
         return "Successfully saved ";
     }
 
@@ -23,7 +23,7 @@ public class FileManipulator {
         return "Successfully saved another";
     }
 
-    public String help(String path) {
+    public String help() {
         return """
                 The following commands are supported:
                 open <file>     opens <file>
@@ -32,9 +32,5 @@ public class FileManipulator {
                 saveas <file>   saves the currently open file in <file>
                 help            prints this information
                 exit            exists the program""";
-    }
-
-    public void exit() {
-        System.out.println("Exiting the program...");
     }
 }
