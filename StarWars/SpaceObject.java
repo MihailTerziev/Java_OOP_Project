@@ -26,11 +26,11 @@ public abstract class SpaceObject {
         return jedies;
     }
 
-    public void addJedi(Jedi jedi) {
+    protected void addJedi(Jedi jedi) {
         jedies.add(jedi);
     }
 
-    public void removeJedi(Jedi jedi) {
+    protected void removeJedi(Jedi jedi) {
         jedies.remove(jedi);
     }
 

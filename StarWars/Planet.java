@@ -15,11 +15,11 @@ public class Planet extends SpaceObject {
         return moons;
     }
 
-    public void addMoon(Moon moon) {
+    protected void addMoon(Moon moon) {
         moons.add(moon);
     }
 
-    public void removeMoon(Moon moon) {
+    protected void removeMoon(Moon moon) {
         moons.remove(moon);
     }
 
