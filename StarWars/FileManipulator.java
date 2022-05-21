@@ -1,69 +1,76 @@
 package Java_OOP_Project.StarWars;
 
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.channels.FileChannel;
-import java.nio.channels.ReadableByteChannel;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 public class FileManipulator {
     private String currFileName;
-    private String path;
-    private Document doc;
+    private static String path = "D:\\tu-varna\\Семестър_IV\\ProjectOOP1\\src\\Java_OOP_Project\\StarWars\\Files\\";
 
-    public FileManipulator() {
-        this.path = "D:/tu-varna/Семестър IV/ProjectOOP1/src/Java_OOP_Project/StarWars/Files/";
-    }
+    public FileManipulator() {}
 
-    public String getPath() {
-        return path;
+    public void setCurrFileName(String currFileName) {
+        this.currFileName = currFileName;
     }
 
     public void setPath(String path) {
-        this.path = path;
+        FileManipulator.path = path;
     }
 
-    public String open(String fileName) throws IOException, SAXException, ParserConfigurationException {
-        if (!Files.exists(Path.of(this.path + fileName))) {
-            return "Can't find " + fileName;
+    public Controller open(String fileName) throws IOException, ClassNotFoundException {
+        if (!Files.exists(Path.of(path + fileName))) {
+            new FileWriter(path + fileName).close();
         }
 
-        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        doc = builder.parse(String.valueOf(new File(this.path + fileName).toURI()));
-        doc.getDocumentElement().normalize();
-
+        BufferedReader br = new BufferedReader(new FileReader(path + fileName));
+        Controller controller;
         this.currFileName = fileName;
 
-        return "Successfully opened " + fileName;
+        if (!(br.readLine() == null)) {
+            FileInputStream inFile = new FileInputStream(path + fileName);
+            ObjectInputStream inObj = new ObjectInputStream(inFile);
+
+            controller = (Controller) inObj.readObject();
+        }
+        else {
+            controller = new Controller();
+        }
+
+        return controller;
     }
 
     public String close() throws IOException {
-        new FileReader(this.path + this.currFileName).close();
+        new FileInputStream(path + this.currFileName).close();
         return "Successfully closed " + this.currFileName;
     }
 
-    public String save() {
+    public String save(Controller con) throws IOException {
+        FileOutputStream outFile = new FileOutputStream(path + this.currFileName);
+        ObjectOutputStream outObj = new ObjectOutputStream(outFile);
+
+        outObj.writeObject(con);
+        outObj.close();
+        outFile.close();
+
         return "Successfully saved " + this.currFileName;
     }
 
-    public String saveAs(String newPath) throws IOException {
-        Path source = Paths.get(this.path + this.currFileName);
-        Path destination = Paths.get(newPath + '/');
-        Files.copy(source, destination);
+    public String saveAs(String newPath, String fileName, Controller con) throws IOException {
+        if (this.currFileName == null) {
+            this.currFileName = fileName;
+        }
 
-        return "Successfully saved another " + this.currFileName;
+        String currFileNameCopy = this.currFileName;
+        String pathCopy = path;
+
+        setCurrFileName(fileName);
+        setPath(newPath + '\\');
+        save(con);
+
+        setCurrFileName(currFileNameCopy);
+        setPath(pathCopy);
+
+        return "Successfully saved another " + currFileNameCopy;
     }
 }

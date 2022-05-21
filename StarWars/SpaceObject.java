@@ -1,8 +1,9 @@
 package Java_OOP_Project.StarWars;
 
+import java.io.Serializable;
 import java.util.*;
 
-public abstract class SpaceObject {
+public abstract class SpaceObject implements Serializable {
     private String name;
     private List<Jedi> jedies;
 

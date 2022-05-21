@@ -1,8 +1,8 @@
 package Java_OOP_Project.StarWars;
 
-import java.util.Objects;
+import java.io.Serializable;
 
-public class Jedi {
+public class Jedi implements Serializable {
     private String name;
     private String rank;
     private int age;

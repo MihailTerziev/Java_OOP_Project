@@ -3,15 +3,16 @@ package Java_OOP_Project.StarWars;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.util.Scanner;
 
 public class MainClass {
-    public static void main(String[] args) throws InvalidDataException, IOException, ParserConfigurationException, SAXException {
+    public static void main(String[] args) throws InvalidDataException, IOException, ParserConfigurationException, SAXException, TransformerException, ClassNotFoundException {
         Controller con = new Controller();
         FileManipulator operation = new FileManipulator();
 
-        System.out.print("Star Wars > ");
+        System.out.print("Star_Wars > ");
         Scanner input = new Scanner(System.in);
         String line = input.nextLine();
 
@@ -25,7 +26,8 @@ public class MainClass {
             else {
                 switch (command) {
                     case "open":
-                        System.out.println(operation.open(argsArr[1]));
+                        con = operation.open(argsArr[1]);
+                        System.out.println("Successfully opened " + argsArr[1]);
                         break;
 
                     case "close":
@@ -33,11 +35,11 @@ public class MainClass {
                         break;
 
                     case "save":
-                        System.out.println(operation.save());
+                        System.out.println(operation.save(con));
                         break;
 
                     case "saveas":
-                        System.out.println(operation.saveAs(argsArr[1]));
+                        System.out.println(operation.saveAs(argsArr[1], argsArr[2], con));
                         break;
 
                     case "help":

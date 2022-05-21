@@ -1,14 +1,31 @@
 package Java_OOP_Project.StarWars;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Controller {
+public class Controller implements Serializable {
     private List<Planet> planets;
     private List<Jedi> jedies;
 
     public Controller() {
         this.planets = new ArrayList<>();
         this.jedies = new ArrayList<>();
+    }
+
+    public List<Planet> getPlanets() {
+        return planets;
+    }
+
+    public void setPlanets(List<Planet> planets) {
+        this.planets = planets;
+    }
+
+    public List<Jedi> getJedies() {
+        return jedies;
+    }
+
+    public void setJedies(List<Jedi> jedies) {
+        this.jedies = jedies;
     }
 
     public String addPlanet(String planetName) {
@@ -23,7 +40,7 @@ public class Controller {
     }
 
     public String createJedi(String planetName, String jediName, String jediRank,
-                              int jediAge , String saberColor, double jediStrength) throws InvalidDataException {
+                              int jediAge, String saberColor, double jediStrength) throws InvalidDataException {
         for (Jedi j: jedies) {
             if (j.getName().equals(jediName)) {   // check if jedi exists
                 return "Jedi " + jediName + " already exists.";
