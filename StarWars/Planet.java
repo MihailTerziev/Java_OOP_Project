@@ -1,6 +1,5 @@
 package Java_OOP_Project.StarWars;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

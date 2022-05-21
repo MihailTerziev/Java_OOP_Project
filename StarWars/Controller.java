@@ -12,22 +12,6 @@ public class Controller implements Serializable {
         this.jedies = new ArrayList<>();
     }
 
-    public List<Planet> getPlanets() {
-        return planets;
-    }
-
-    public void setPlanets(List<Planet> planets) {
-        this.planets = planets;
-    }
-
-    public List<Jedi> getJedies() {
-        return jedies;
-    }
-
-    public void setJedies(List<Jedi> jedies) {
-        this.jedies = jedies;
-    }
-
     public String addPlanet(String planetName) {
         for (Planet p: planets) {
             if (p.getName().equals(planetName)) {   // check if planet exists
