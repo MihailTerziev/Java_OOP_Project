@@ -77,12 +77,14 @@ public class MainClass {
                     case "promote_jedi":
                         jediName = argsArr[1];
                         double multiplier = Double.parseDouble(argsArr[2]);
+
                         System.out.println(con.promoteJedi(jediName, multiplier));
                         break;
 
                     case "demote_jedi":
                         jediName = argsArr[1];
                         multiplier = Double.parseDouble(argsArr[2]);
+
                         System.out.println(con.demoteJedi(jediName, multiplier));
                         break;
 

@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Controller implements Serializable {
-    private List<Planet> planets;
-    private List<Jedi> jedies;
+    private final List<Planet> planets;
+    private final List<Jedi> jedies;
 
     public Controller() {
         this.planets = new ArrayList<>();
@@ -42,7 +42,7 @@ public class Controller implements Serializable {
 
                 Jedi jedi = new Jedi(jediName, jediRank, jediAge, saberColor, jediStrength);
                 jedi.setLocation(p.getName());  // set location
-                p.addJedi(jedi);              // create and add jedi
+                p.addJedi(jedi);                // create and add jedi
                 jedies.add(jedi);
                 return "Jedi " + jediName + " has landed on planet " + planetName + ".";
             }
@@ -68,7 +68,7 @@ public class Controller implements Serializable {
                 }
             }
 
-            if (planetExists) {
+            if (planetExists) {    // check if planet exists, then check if the jedi is on it
                 if (jediExists) {
                     return  "Jedi " + jediName + " has left planet " + planetName + ".";
                 }
@@ -83,7 +83,7 @@ public class Controller implements Serializable {
 
     private String getUpperRank(String currentRank) {
         for (int i = 0; i < JediRanks.values().length; ++i) {
-            if (JediRanks.values()[i].toString().equalsIgnoreCase(currentRank)) {
+            if (JediRanks.values()[i].toString().equals(currentRank)) {
                 return JediRanks.values()[i+1].toString();  // find and return next rank
             }
         }
@@ -92,24 +92,26 @@ public class Controller implements Serializable {
 
     public String promoteJedi(String jediName, double multiplier) throws InvalidDataException {
         if (multiplier <= 0) {
-            throw new InvalidDataException("Multiplier must be positive!");
+            return "Multiplier must be positive!";
         }
 
-        String newRank = null;
+        String newRank = null;  // these values will hold the new information after the promotion
         double newForce = 0;
 
         for (Jedi j: jedies) {
             if (j.getName().equals(jediName)) {
+
+                // jedi can't be the highest rank and get promoted
                 if (j.getRank().equalsIgnoreCase("GRAND_MASTER")) {
                     return "Jedi " + jediName + " is highest rank. Can't be promoted.";
                 }
 
-                newRank = getUpperRank(j.getRank());
+                newRank = getUpperRank(j.getRank());  // get higher rank and promote the jedi
                 if (!newRank.isEmpty()) {
                     j.setRank(newRank);
                 }
 
-                newForce = j.getForce() + (j.getForce() * multiplier);
+                newForce = j.getForce() + (j.getForce() * multiplier);  // increase force
                 j.setForce(newForce);
 
                 break;  // after jedi is promoted, don't check the rest jedies
@@ -121,7 +123,7 @@ public class Controller implements Serializable {
 
     private String getLowerRank(String currentRank) {
         for (int i = 0; i < JediRanks.values().length; ++i) {
-            if (JediRanks.values()[i].toString().equalsIgnoreCase(currentRank)) {
+            if (JediRanks.values()[i].toString().equals(currentRank)) {
                 return JediRanks.values()[i - 1].toString();  // find and return lower rank
             }
         }
@@ -130,7 +132,7 @@ public class Controller implements Serializable {
 
     public String demoteJedi(String jediName, double multiplier) throws InvalidDataException {
         if (multiplier <= 0) {
-            throw new InvalidDataException("Multiplier must be positive!");
+            return "Multiplier must be positive!";
         }
 
         String newRank = null;
@@ -138,6 +140,8 @@ public class Controller implements Serializable {
 
         for (Jedi j: jedies) {
             if (j.getName().equals(jediName)) {
+
+                // if jedi is lowest rank, can't get demoted
                 if (j.getRank().equalsIgnoreCase("YOUNGLING")) {
                     return "Jedi " + jediName + " is lowes rank. Can't be demoted.";
                 }
@@ -145,7 +149,7 @@ public class Controller implements Serializable {
                 newRank = getLowerRank(j.getRank());
                 if (!newRank.isEmpty()) {
                     j.setRank(newRank);
-                }
+                }                                // set lower rank and decrease power
 
                 newForce = j.getForce() - (j.getForce() * multiplier);
                 j.setForce(newForce);
@@ -174,7 +178,7 @@ public class Controller implements Serializable {
         }
 
         if (strongestJedi != null) {   // the planet may not have jedies, so we check for any jedi
-            return "Strongest jedi: " + strongestJedi.toString();
+            return "Strongest jedi: " + strongestJedi;
         }
 
         return "Planet " + planetName + " has no jedies.";
@@ -268,6 +272,7 @@ public class Controller implements Serializable {
     }
 
     public String getMostUsedSaberColor(String planetName) {
+        // it is needed the strongest jedi among the strongest rank
         return getMostUsedSaberColor(planetName, "GRAND_MASTER");
     }
 
@@ -275,7 +280,7 @@ public class Controller implements Serializable {
         String output = null;
         boolean flag = false;
 
-        for (Jedi j: jedies) {
+        for (Jedi j: jedies) {  // if the parameter is jedi name, the information is printed
             if (j.getName().equals(name)) {
                 output = j.toString();
                 flag = true;
@@ -283,19 +288,24 @@ public class Controller implements Serializable {
             }
         }
 
-        if (!flag) {
+        if (!flag) {    // if it is not jedi name it should be planet name, so check and print
             for (Planet p: planets) {
                 if (p.getName().equals(name)) {
                     output = p.toString();
+                    flag = true;
                     break;
                 }
             }
         }
 
+        if (!flag) {   // finally, if the name is not of a planet or a jedi, there is no such name
+            output = "There is no recorded information about " + name + ".";
+        }
+
         return output;
     }
 
-    private String sortAlpha(List<Jedi> jedies) {
+    private String sortAlpha(List<Jedi> jedies) {  // sort alphabetically list of jedies by their names
         StringBuilder output = new StringBuilder();
         jedies.sort(Comparator.comparing(Jedi::getName));
 
@@ -303,11 +313,11 @@ public class Controller implements Serializable {
             output.append(j).append('\n');
         }
 
-        return output.toString();
+        return output.toString();  // returns the sorted list as string
     }
 
-    public String add(String planetOne, String planetTwo) {
-        StringBuilder output = new StringBuilder();
+    public String add(String planetOne, String planetTwo) {  // prints combined info about two planets
+        StringBuilder output = new StringBuilder();          // method is called when: planet_name1 + planet_name2
 
         for (Planet p: planets) {
             if (p.getName().equals(planetOne)) {

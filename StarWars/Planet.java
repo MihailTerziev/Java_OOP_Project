@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Planet extends SpaceObject {
-    private List<Moon> moons;
+    private final List<Moon> moons;
 
     public Planet(String name) {
         super(name);
@@ -28,7 +28,7 @@ public class Planet extends SpaceObject {
         StringBuilder output = new StringBuilder("Planet: " + super.getName() + "\nJedies:\n" + super.toString());
         output.append('\n').append("Moons of ").append(super.getName()).append(":\n");
 
-        if (moons.isEmpty()) {
+        if (moons.isEmpty()) {     // check if there are moons
             output.append("none\n");
         }
         else {

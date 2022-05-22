@@ -5,7 +5,7 @@ import java.util.*;
 
 public abstract class SpaceObject implements Serializable {
     private String name;
-    private List<Jedi> jedies;
+    private final List<Jedi> jedies;
 
     public SpaceObject(String name) {
         this.name = name;
@@ -38,21 +38,20 @@ public abstract class SpaceObject implements Serializable {
     @Override
     public String toString() {
         StringBuilder output = new StringBuilder();
-
         Map<String, String> jediesInfo = new HashMap<>();
 
         for (Jedi j: this.jedies) {   // if jedi has the wanted rank, count the saber color
             jediesInfo.put(j.getRank(), j.getName());
         }
 
-        if (jediesInfo.isEmpty()) {
+        if (jediesInfo.isEmpty()) {   // check if there are jedies
             output.append("none\n");
         }
         else {
             List<Map.Entry<String, String>> jediesInfoList = new ArrayList<>(jediesInfo.entrySet());
 
             jediesInfoList.sort(Map.Entry.comparingByKey());
-            jediesInfoList.sort(Map.Entry.comparingByValue());
+            jediesInfoList.sort(Map.Entry.comparingByValue());  // search
 
             for (Jedi j : this.jedies) {
                 for (Map.Entry<String, String> var : jediesInfoList) {

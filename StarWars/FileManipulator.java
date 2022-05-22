@@ -32,6 +32,8 @@ public class FileManipulator {
             ObjectInputStream inObj = new ObjectInputStream(inFile);
 
             controller = (Controller) inObj.readObject();
+            inFile.close();
+            inObj.close();
         }
         else {
             controller = new Controller();
@@ -41,7 +43,7 @@ public class FileManipulator {
     }
 
     public String close() throws IOException {
-        new FileInputStream(path + this.currFileName).close();
+        new FileReader(path + this.currFileName).close();
         return "Successfully closed " + this.currFileName;
     }
 
