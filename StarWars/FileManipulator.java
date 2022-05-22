@@ -5,10 +5,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class FileManipulator {
+    private static String path;
     private String currFileName;
-    private static String path = "D:\\tu-varna\\Семестър_IV\\ProjectOOP1\\src\\Java_OOP_Project\\StarWars\\Files\\";
+    private boolean fileAvailable; // this will control access to the operations
 
-    public FileManipulator() {}
+    public FileManipulator() {
+        path = "D:\\tu-varna\\Семестър_IV\\ProjectOOP1\\src\\Java_OOP_Project\\StarWars\\Files\\";
+        this.fileAvailable = false;
+    }
 
     public void setCurrFileName(String currFileName) {
         this.currFileName = currFileName;
@@ -19,6 +23,8 @@ public class FileManipulator {
     }
 
     public Controller open(String fileName) throws IOException, ClassNotFoundException {
+        this.fileAvailable = true; // there is opened file, so now it can be closed, saved, saved as ...
+
         if (!Files.exists(Path.of(path + fileName))) {
             new FileWriter(path + fileName).close();
         }
@@ -43,11 +49,20 @@ public class FileManipulator {
     }
 
     public String close() throws IOException {
+        if (!this.fileAvailable) {   // we can't close a file if it is not opened first
+            return "No opened file!";
+        }
+
+        this.fileAvailable = false;  // if there is opened file it will be closed, and we can't use the other methods again
         new FileReader(path + this.currFileName).close();
         return "Successfully closed " + this.currFileName;
     }
 
     public String save(Controller con) throws IOException {
+        if (!this.fileAvailable) {  // we can't save changes if file is not opened
+            return "Please open a file to use this operation!";
+        }
+
         FileOutputStream outFile = new FileOutputStream(path + this.currFileName);
         ObjectOutputStream outObj = new ObjectOutputStream(outFile);
 
@@ -59,8 +74,8 @@ public class FileManipulator {
     }
 
     public String saveAs(String newPath, String fileName, Controller con) throws IOException {
-        if (this.currFileName == null) {
-            this.currFileName = fileName;
+        if (!this.fileAvailable) {  // can't copy file on another location if not opened
+            return "Please open a file and make changes to use this operation!";
         }
 
         String currFileNameCopy = this.currFileName;
