@@ -78,15 +78,15 @@ public class FileManipulator {
             return "Please open a file and make changes to use this operation!";
         }
 
-        String currFileNameCopy = this.currFileName;
+        String currFileNameCopy = this.currFileName;  // make copies to set original path back
         String pathCopy = path;
 
-        setCurrFileName(fileName);
+        setCurrFileName(fileName);  // set new path and file name
         setPath(newPath + '\\');
-        save(con);
+        save(con);                  // save copy of the file at other location
 
-        setCurrFileName(currFileNameCopy);
-        setPath(pathCopy);
+        setCurrFileName(currFileNameCopy);  // set back to original path and name
+        setPath(pathCopy);                  // this will prevent saving files to unknown location by mistake
 
         return "Successfully saved another " + currFileNameCopy;
     }
