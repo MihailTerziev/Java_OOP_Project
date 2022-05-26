@@ -40,7 +40,7 @@ public class MainClass {
 
                     case "help":
                         System.out.println(
-                                        "The following commands are supported:\n" +
+                                        "\nThe following commands are supported:\n" +
                                         "open <file>     opens <file>\n" +
                                         "close           closes currently opened file\n" +
                                         "save            saves the currently open file\n" +
