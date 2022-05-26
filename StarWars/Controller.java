@@ -132,13 +132,14 @@ public class Controller implements Serializable {
                 }
 
                 newForce = j.getForce() + (j.getForce() * multiplier);  // increase force
+                newForce = Math.round(newForce * 100.00) / 100.00;    // round it to 2 after decimal
                 j.setForce(newForce);
 
-                break;  // after jedi is promoted, don't check the rest jedies
+                // after jedi is promoted, don't check the rest jedies
+                return "Jedi " + jediName + " has been promoted to " + newRank + ". His/her force is now " + newForce + " .";
             }
         }
-
-        return "Jedi " + jediName + " has been promoted to " + newRank + ". His/her force is now " + newForce + ".";
+        return "No jedi named " + jediName + "!";
     }
 
     private String getLowerRank(String currentRank) {
@@ -172,13 +173,14 @@ public class Controller implements Serializable {
                 }                                // set lower rank and decrease power
 
                 newForce = j.getForce() - (j.getForce() * multiplier);
+                newForce = Math.round(newForce * 100.00) / 100.00;
                 j.setForce(newForce);
 
-                break;  // after jedi is demoted, don't check the rest jedies
+                // after jedi is demoted, don't check the rest jedies
+                return "Jedi " + jediName + " has been demoted to " + newRank + ". His/her force is now " + newForce + " .";
             }
         }
-
-        return "Jedi " + jediName + " has been demoted to " + newRank + ". His/her force is now " + newForce + ".";
+        return "No jedi named " + jediName + "!";
     }
 
     public String getStrongestJedi(String planetName) {
@@ -282,7 +284,7 @@ public class Controller implements Serializable {
         }
 
         if (colors.isEmpty()) {
-            return "There are no " + jediRank + " jedies on planet" + planetName + ".";
+            return "There are no " + jediRank + " jedies on planet " + planetName + ".";
         }
 
         List<Map.Entry<String, Integer>> colorsList = new ArrayList<>(colors.entrySet());
@@ -341,10 +343,10 @@ public class Controller implements Serializable {
 
         for (SpaceObject sp: spaceObjects) {
             if (sp instanceof Planet && sp.getName().equals(planetOne)) {
-                output.append("Planet: ").append(sp.getName()).append("\nJedies:\n\n").append(sortAlpha(sp.getJedies()));
+                output.append("\nPlanet: ").append(sp.getName()).append("\nJedies:\n").append(sortAlpha(sp.getJedies()));
             }
             if (sp instanceof Planet && sp.getName().equals(planetTwo)) {
-                output.append("Planet: ").append(sp.getName()).append("\nJedies:\n\n").append(sortAlpha(sp.getJedies()));
+                output.append("\nPlanet: ").append(sp.getName()).append("\nJedies:\n").append(sortAlpha(sp.getJedies()));
             }
         }
 

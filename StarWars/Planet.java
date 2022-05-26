@@ -26,7 +26,7 @@ public class Planet extends SpaceObject {
     @Override
     public String toString() {
         StringBuilder output = new StringBuilder("Planet: " + super.getName() + "\nJedies:\n" + super.toString());
-        output.append('\n').append("\nMoons of ").append(super.getName()).append(":");
+        output.append('\n').append("\nMoons of ").append(super.getName()).append(":\n");
 
         if (moons.isEmpty()) {     // check if there are moons
             output.append("none\n");

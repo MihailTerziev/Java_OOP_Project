@@ -8,7 +8,7 @@ public class MainClass {
         Controller con = new Controller();
         FileManipulator operation = new FileManipulator();
 
-        System.out.print("Star_Wars > ");
+        System.out.print("\nYou are granted access, Welcome!\n\nStar_Wars > ");
         Scanner input = new Scanner(System.in);
         String line = input.nextLine();
 
@@ -39,14 +39,13 @@ public class MainClass {
                         break;
 
                     case "help":
-                        System.out.println("""
-                        The following commands are supported:
-                        open <file>     opens <file>
-                        close           closes currently opened file
-                        save            saves the currently open file
-                        saveas <file>   saves the currently open file in <file>
-                        help            prints this information
-                        exit            exists the program""");
+                        System.out.println("The following commands are supported:\n" +
+                                        "open <file>     opens <file>\n" +
+                                        "close           closes currently opened file\n" +
+                                        "save            saves the currently open file\n" +
+                                        "saveas <file>   saves the currently open file in <file>\n" +
+                                        "help            prints this information\n" +
+                                        "exit            exists the program\n");
                         break;
 
                     case "exit":

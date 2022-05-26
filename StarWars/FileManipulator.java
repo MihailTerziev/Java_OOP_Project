@@ -3,6 +3,7 @@ package Java_OOP_Project.StarWars;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class FileManipulator {
     private static String path;
@@ -25,7 +26,7 @@ public class FileManipulator {
     public Controller open(String fileName) throws IOException, ClassNotFoundException {
         this.fileAvailable = true; // there is opened file, so now it can be closed, saved, saved as ...
 
-        if (!Files.exists(Path.of(path + fileName))) {
+        if (!Files.exists(Paths.get(path + fileName))) {
             new FileWriter(path + fileName).close();
         }
 

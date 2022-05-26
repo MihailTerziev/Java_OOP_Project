@@ -46,10 +46,9 @@ public class Jedi implements Serializable {
         }
 
         if(!correctRank) {
-            throw new InvalidDataException("""
-                    Jedi rank must be one of the titles:
-                    YOUNGLING, INITIATE, PADAWAN, KNIGHT_ASPIRANT, 
-                    KNIGHT, MASTER, BATTLE_MASTER и GRAND_MASTER""");
+            throw new InvalidDataException("Jedi rank must be one of the titles:\n" +
+                    "YOUNGLING, INITIATE, PADAWAN, KNIGHT_ASPIRANT,\n" +
+                    "KNIGHT, MASTER, BATTLE_MASTER и GRAND_MASTER\n");
         }
     }
 
