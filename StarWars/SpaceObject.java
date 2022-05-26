@@ -7,8 +7,8 @@ public abstract class SpaceObject implements Serializable {
     private String name;
     private final List<Jedi> jedies;
 
-    public SpaceObject(String name) {
-        this.name = name;
+    public SpaceObject(String name) throws InvalidDataException {
+        setName(name);
         this.jedies = new ArrayList<>();
     }
 

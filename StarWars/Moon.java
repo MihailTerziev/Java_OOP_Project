@@ -3,7 +3,7 @@ package Java_OOP_Project.StarWars;
 public class Moon extends SpaceObject {
     private String planet;  // orbiting around a planet
 
-    public Moon(String name) {
+    public Moon(String name) throws InvalidDataException {
         super(name);
     }
 

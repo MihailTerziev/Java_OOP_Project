@@ -23,7 +23,7 @@ public class Controller implements Serializable {
         return "Added planet " + planetName + '.';
     }
 
-    public String addMoon(String moonName, String planetName) {
+    public String addMoon(String moonName, String planetName) throws InvalidDataException {
         for (SpaceObject sp: spaceObjects) {
             if (sp instanceof Planet && sp.getName().equals(planetName)) {   // check if planet exists
                 Moon moon = new Moon(moonName);

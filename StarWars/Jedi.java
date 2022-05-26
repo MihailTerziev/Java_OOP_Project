@@ -10,12 +10,12 @@ public class Jedi implements Serializable {
     private double force;
     private String location;
 
-    public Jedi(String name, String rank, int age, String saberColor, double force) {
-        this.name = name;
-        this.rank = rank;
-        this.age = age;
-        this.saberColor = saberColor;
-        this.force = force;
+    public Jedi(String name, String rank, int age, String saberColor, double force) throws InvalidDataException {
+        setName(name);
+        setRank(rank);
+        setAge(age);
+        setSaberColor(saberColor);
+        setForce(force);
     }
 
     public String getName() {

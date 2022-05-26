@@ -6,7 +6,7 @@ import java.util.List;
 public class Planet extends SpaceObject {
     private final List<Moon> moons;
 
-    public Planet(String name) {
+    public Planet(String name) throws InvalidDataException {
         super(name);
         this.moons = new ArrayList<>();
     }
