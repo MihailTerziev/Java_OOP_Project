@@ -72,7 +72,8 @@ public class Jedi implements Serializable {
         if (!saberColor.isEmpty() && (saberColor.equalsIgnoreCase("blue") ||
                 saberColor.equalsIgnoreCase("green") ||
                 saberColor.equalsIgnoreCase("yellow") ||
-                saberColor.equalsIgnoreCase("purple")))
+                saberColor.equalsIgnoreCase("purple") ||
+                saberColor.equalsIgnoreCase("none")))
         {
             this.saberColor = saberColor;
         }

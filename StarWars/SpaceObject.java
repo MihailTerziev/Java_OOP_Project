@@ -49,9 +49,7 @@ public abstract class SpaceObject implements Serializable {
         }
         else {
             List<Map.Entry<String, String>> jediesInfoList = new ArrayList<>(jediesInfo.entrySet());
-
-            jediesInfoList.sort(Map.Entry.comparingByKey());
-            jediesInfoList.sort(Map.Entry.comparingByValue());  // search
+            jediesInfoList.sort(Map.Entry.comparingByValue());
 
             for (Jedi j : this.jedies) {
                 for (Map.Entry<String, String> var : jediesInfoList) {

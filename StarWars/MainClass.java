@@ -58,6 +58,10 @@ public class MainClass {
                         System.out.println(con.addPlanet(argsArr[1]));
                         break;
 
+                    case "add_moon":
+                        System.out.println(con.addMoon(argsArr[1], argsArr[2]));
+                        break;
+
                     case "create_jedi":
                         String planetName = argsArr[1];
                         String jediName = argsArr[2];

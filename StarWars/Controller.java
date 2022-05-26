@@ -4,26 +4,53 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Controller implements Serializable {
-    private final List<Planet> planets;
+    private final List<SpaceObject> spaceObjects;
     private final List<Jedi> jedies;
 
     public Controller() {
-        this.planets = new ArrayList<>();
+        this.spaceObjects = new ArrayList<>();
         this.jedies = new ArrayList<>();
     }
 
-    public String addPlanet(String planetName) {
-        for (Planet p: planets) {
-            if (p.getName().equals(planetName)) {   // check if planet exists
+    public String addPlanet(String planetName) throws InvalidDataException {
+        for (SpaceObject sp: spaceObjects) {
+            if (sp instanceof Planet && sp.getName().equals(planetName)) {   // check if planet exists
                 return "Planet " + planetName + " is already added!";
             }
         }
 
-        planets.add(new Planet(planetName));   // add new planet
+        spaceObjects.add(new Planet(planetName));   // add new planet
         return "Added planet " + planetName + '.';
     }
 
-    public String createJedi(String planetName, String jediName, String jediRank,
+    public String addMoon(String moonName, String planetName) {
+        for (SpaceObject sp: spaceObjects) {
+            if (sp instanceof Planet && sp.getName().equals(planetName)) {   // check if planet exists
+                Moon moon = new Moon(moonName);
+                ((Planet) sp).addMoon(moon);          // add moon to planet's system
+                moon.setPlanet(sp.getName());
+                spaceObjects.add(moon);
+                return "Discovered new moon " + moonName + " orbiting planet " + planetName + '.';
+            }
+        }
+
+        return "No such planet " + planetName + '.';
+    }
+
+    private String addJediToLocation(SpaceObject spaceObject, Jedi jedi) throws InvalidDataException {
+        for (Jedi j: spaceObject.getJedies()) {
+            if (j.getName().equals(jedi.getName())) {   // check if jedi is already on planet
+                return "Jedi " + jedi.getName() + " is already on planet " + spaceObject.getName() + ".";
+            }
+        }
+
+        jedi.setLocation(spaceObject.getName());  // set location
+        spaceObject.addJedi(jedi);                // create and add jedi
+        jedies.add(jedi);
+        return "Jedi " + jedi.getName() + " landed on " + spaceObject.getName() + '.';
+    }
+
+    public String createJedi(String spaceObjName, String jediName, String jediRank,
                               int jediAge, String saberColor, double jediStrength) throws InvalidDataException {
         for (Jedi j: jedies) {
             if (j.getName().equals(jediName)) {   // check if jedi exists
@@ -31,54 +58,47 @@ public class Controller implements Serializable {
             }
         }
 
-        for (Planet p: planets) {
-            if (p.getName().equals(planetName)) {
+        Jedi jedi = new Jedi(jediName, jediRank, jediAge, saberColor, jediStrength);
+        String output;
 
-                for (Jedi j: p.getJedies()) {
-                    if (j.getName().equals(jediName)) {   // check if jedi is already on planet
-                        return "Jedi " + jediName + " is already on planet " + planetName + ".";
-                    }
-                }
-
-                Jedi jedi = new Jedi(jediName, jediRank, jediAge, saberColor, jediStrength);
-                jedi.setLocation(p.getName());  // set location
-                p.addJedi(jedi);                // create and add jedi
-                jedies.add(jedi);
-                return "Jedi " + jediName + " has landed on planet " + planetName + ".";
+        for (SpaceObject sp: spaceObjects) {
+            if (sp.getName().equals(spaceObjName)) {
+                output = addJediToLocation(sp, jedi);
+                return output;
             }
         }
 
-        return "No such planet as " + planetName + '.';  // if nothing is returned above, there is no such planet
+        return "No such planet or moon as " + spaceObjName + '.';  // if nothing is returned above, there is no such planet
     }
 
-    public String removeJedi(String jediName, String planetName) {
-        boolean planetExists = false;
+    public String removeJedi(String jediName, String spaceObjName) {
+        boolean spaceObjExists = false;
         boolean jediExists = false;
 
-        for (Planet p: planets) {
-            if (p.getName().equals(planetName)) {
-                planetExists = true;
+        for (SpaceObject sp: spaceObjects) {
+            if (sp.getName().equals(spaceObjName)) {
+                spaceObjExists = true;
 
-                for (Jedi j: p.getJedies()) {
+                for (Jedi j: sp.getJedies()) {
                     if (j.getName().equals(jediName)) {
                         jediExists = true;
-                        p.removeJedi(j);    // remove jedi if he/she is on the planet
+                        sp.removeJedi(j);    // remove jedi if he/she is on the planet
                         break;
                     }
                 }
             }
 
-            if (planetExists) {    // check if planet exists, then check if the jedi is on it
+            if (spaceObjExists) {    // check if planet exists, then check if the jedi is on it
                 if (jediExists) {
-                    return  "Jedi " + jediName + " has left planet " + planetName + ".";
+                    return  "Jedi " + jediName + " has left " + spaceObjName + ".";
                 }
                 else {
-                    return "No such jedi as " + jediName + " on planet " + planetName + ".";
+                    return "No such jedi as " + jediName + " on " + spaceObjName + ".";
                 }
             }
         }
 
-        return "No such planet as " + planetName + '.';
+        return "No such planet or moon as " + spaceObjName + '.';
     }
 
     private String getUpperRank(String currentRank) {
@@ -164,11 +184,11 @@ public class Controller implements Serializable {
     public String getStrongestJedi(String planetName) {
         Jedi strongestJedi = null;
 
-        for (Planet p: planets) {
-            if (p.getName().equals(planetName)) {
+        for (SpaceObject sp: spaceObjects) {
+            if (sp.getName().equals(planetName)) {
                 double maxForce = 0;
 
-                for (Jedi j: p.getJedies()) {
+                for (Jedi j: sp.getJedies()) {
                     if (j.getForce() > maxForce) {
                         maxForce = j.getForce();
                         strongestJedi = j;
@@ -187,10 +207,10 @@ public class Controller implements Serializable {
     public String getYoungestJedi(String planetName, String jediRank) {
         Map<Jedi, Integer> jedies = new HashMap<>();
 
-        for (Planet p: planets) {
-            if (p.getName().equals(planetName)) {
+        for (SpaceObject sp: spaceObjects) {
+            if (sp.getName().equals(planetName)) {
 
-                for (Jedi j: p.getJedies()) {
+                for (Jedi j: sp.getJedies()) {
                     if (j.getRank().equalsIgnoreCase(jediRank)) {   // if jedi has the wanted rank, add him with his age
                         jedies.put(j, j.getAge());
                     }
@@ -237,11 +257,11 @@ public class Controller implements Serializable {
         Map<String, Integer> colors = new HashMap<>();
         boolean planetExists = false;
 
-        for (Planet p: planets) {   // count saber colors
-            if (p.getName().equals(planetName)) {
+        for (SpaceObject sp: spaceObjects) {   // count saber colors
+            if (sp instanceof Planet && sp.getName().equals(planetName)) {
                 planetExists = true;
 
-                for (Jedi j: p.getJedies()) {
+                for (Jedi j: sp.getJedies()) {
                     if (j.getRank().equalsIgnoreCase(jediRank)) {   // if jedi has the wanted rank, count the saber color
                         if (colors.containsKey(j.getSaberColor())) {
                             int counter = colors.get(j.getSaberColor());
@@ -289,9 +309,9 @@ public class Controller implements Serializable {
         }
 
         if (!flag) {    // if it is not jedi name it should be planet name, so check and print
-            for (Planet p: planets) {
-                if (p.getName().equals(name)) {
-                    output = p.toString();
+            for (SpaceObject sp: spaceObjects) {
+                if (sp.getName().equals(name)) {
+                    output = sp.toString();
                     flag = true;
                     break;
                 }
@@ -319,12 +339,12 @@ public class Controller implements Serializable {
     public String add(String planetOne, String planetTwo) {  // prints combined info about two planets
         StringBuilder output = new StringBuilder();          // method is called when: planet_name1 + planet_name2
 
-        for (Planet p: planets) {
-            if (p.getName().equals(planetOne)) {
-                output.append("Planet: ").append(p.getName()).append("\nJedies:\n").append(sortAlpha(p.getJedies()));
+        for (SpaceObject sp: spaceObjects) {
+            if (sp instanceof Planet && sp.getName().equals(planetOne)) {
+                output.append("Planet: ").append(sp.getName()).append("\nJedies:\n\n").append(sortAlpha(sp.getJedies()));
             }
-            if (p.getName().equals(planetTwo)) {
-                output.append("Planet: ").append(p.getName()).append("\nJedies:\n").append(sortAlpha(p.getJedies()));
+            if (sp instanceof Planet && sp.getName().equals(planetTwo)) {
+                output.append("Planet: ").append(sp.getName()).append("\nJedies:\n\n").append(sortAlpha(sp.getJedies()));
             }
         }
 
