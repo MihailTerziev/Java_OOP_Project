@@ -53,7 +53,7 @@ public class Controller implements Serializable {
     public String createJedi(String spaceObjName, String jediName, String jediRank,
                               int jediAge, String saberColor, double jediStrength) throws InvalidDataException {
         for (Jedi j: jedies) {
-            if (j.getName().equals(jediName)) {   // check if jedi exists
+            if (j.getName().equalsIgnoreCase(jediName)) {   // check if jedi exists
                 return "Jedi " + jediName + " already exists.";
             }
         }
@@ -62,7 +62,7 @@ public class Controller implements Serializable {
         String output;
 
         for (SpaceObject sp: spaceObjects) {
-            if (sp.getName().equals(spaceObjName)) {
+            if (sp.getName().equalsIgnoreCase(spaceObjName)) {
                 output = addJediToLocation(sp, jedi);
                 return output;
             }
@@ -76,11 +76,11 @@ public class Controller implements Serializable {
         boolean jediExists = false;
 
         for (SpaceObject sp: spaceObjects) {
-            if (sp.getName().equals(spaceObjName)) {
+            if (sp.getName().equalsIgnoreCase(spaceObjName)) {
                 spaceObjExists = true;
 
                 for (Jedi j: sp.getJedies()) {
-                    if (j.getName().equals(jediName)) {
+                    if (j.getName().equalsIgnoreCase(jediName)) {
                         jediExists = true;
                         sp.removeJedi(j);    // remove jedi if he/she is on the planet
                         break;
@@ -119,7 +119,7 @@ public class Controller implements Serializable {
         double newForce = 0;
 
         for (Jedi j: jedies) {
-            if (j.getName().equals(jediName)) {
+            if (j.getName().equalsIgnoreCase(jediName)) {
 
                 // jedi can't be the highest rank and get promoted
                 if (j.getRank().equalsIgnoreCase("GRAND_MASTER")) {
@@ -160,7 +160,7 @@ public class Controller implements Serializable {
         double newForce = 0;
 
         for (Jedi j: jedies) {
-            if (j.getName().equals(jediName)) {
+            if (j.getName().equalsIgnoreCase(jediName)) {
 
                 // if jedi is lowest rank, can't get demoted
                 if (j.getRank().equalsIgnoreCase("YOUNGLING")) {
@@ -187,7 +187,7 @@ public class Controller implements Serializable {
         Jedi strongestJedi = null;
 
         for (SpaceObject sp: spaceObjects) {
-            if (sp.getName().equals(planetName)) {
+            if (sp.getName().equalsIgnoreCase(planetName)) {
                 double maxForce = 0;
 
                 for (Jedi j: sp.getJedies()) {
@@ -210,7 +210,7 @@ public class Controller implements Serializable {
         Map<Jedi, Integer> jedies = new HashMap<>();
 
         for (SpaceObject sp: spaceObjects) {
-            if (sp.getName().equals(planetName)) {
+            if (sp.getName().equalsIgnoreCase(planetName)) {
 
                 for (Jedi j: sp.getJedies()) {
                     if (j.getRank().equalsIgnoreCase(jediRank)) {   // if jedi has the wanted rank, add him with his age
@@ -303,7 +303,7 @@ public class Controller implements Serializable {
         boolean flag = false;
 
         for (Jedi j: jedies) {  // if the parameter is jedi name, the information is printed
-            if (j.getName().equals(name)) {
+            if (j.getName().equalsIgnoreCase(name)) {
                 output = j.toString();
                 flag = true;
                 break;
@@ -312,7 +312,7 @@ public class Controller implements Serializable {
 
         if (!flag) {    // if it is not jedi name it should be planet name, so check and print
             for (SpaceObject sp: spaceObjects) {
-                if (sp.getName().equals(name)) {
+                if (sp.getName().equalsIgnoreCase(name)) {
                     output = sp.toString();
                     flag = true;
                     break;
@@ -342,10 +342,10 @@ public class Controller implements Serializable {
         StringBuilder output = new StringBuilder();          // method is called when: planet_name1 + planet_name2
 
         for (SpaceObject sp: spaceObjects) {
-            if (sp instanceof Planet && sp.getName().equals(planetOne)) {
+            if (sp instanceof Planet && sp.getName().equalsIgnoreCase(planetOne)) {
                 output.append("\nPlanet: ").append(sp.getName()).append("\nJedies:\n").append(sortAlpha(sp.getJedies()));
             }
-            if (sp instanceof Planet && sp.getName().equals(planetTwo)) {
+            if (sp instanceof Planet && sp.getName().equalsIgnoreCase(planetTwo)) {
                 output.append("\nPlanet: ").append(sp.getName()).append("\nJedies:\n").append(sortAlpha(sp.getJedies()));
             }
         }
