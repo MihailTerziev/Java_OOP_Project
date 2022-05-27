@@ -3,7 +3,7 @@ package Java_OOP_Project.StarWars;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class MainClass {
+public class MainMenu {
     public static void main(String[] args) throws InvalidDataException, IOException, ClassNotFoundException {
         Controller con = new Controller();
         FileManipulator operation = new FileManipulator();
