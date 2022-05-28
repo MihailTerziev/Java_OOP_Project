@@ -59,12 +59,10 @@ public class Controller implements Serializable {
         }
 
         Jedi jedi = new Jedi(jediName, jediRank, jediAge, saberColor, jediStrength);
-        String output;
 
         for (SpaceObject sp: spaceObjects) {
             if (sp.getName().equalsIgnoreCase(spaceObjName)) {
-                output = addJediToLocation(sp, jedi);
-                return output;
+                return addJediToLocation(sp, jedi);
             }
         }
 
@@ -115,7 +113,7 @@ public class Controller implements Serializable {
             return "Multiplier must be positive!";
         }
 
-        String newRank = null;  // these values will hold the new information after the promotion
+        String newRank;  // these values will hold the new information after the promotion
         double newForce = 0;
 
         for (Jedi j: jedies) {
@@ -136,7 +134,7 @@ public class Controller implements Serializable {
                 j.setForce(newForce);
 
                 // after jedi is promoted, don't check the rest jedies
-                return "Jedi " + jediName + " has been promoted to " + newRank + ". His/her force is now " + newForce + " .";
+                return "Jedi " + jediName + " has been promoted to " + newRank + ". His/her force is now " + newForce;
             }
         }
         return "No jedi named " + jediName + "!";
@@ -145,7 +143,7 @@ public class Controller implements Serializable {
     private String getLowerRank(String currentRank) {
         for (int i = 0; i < JediRanks.values().length; ++i) {
             if (JediRanks.values()[i].toString().equals(currentRank)) {
-                return JediRanks.values()[i - 1].toString();  // find and return lower rank
+                return JediRanks.values()[i-1].toString();  // find and return lower rank
             }
         }
         return "";
@@ -156,7 +154,7 @@ public class Controller implements Serializable {
             return "Multiplier must be positive!";
         }
 
-        String newRank = null;
+        String newRank;
         double newForce = 0;
 
         for (Jedi j: jedies) {
@@ -177,7 +175,7 @@ public class Controller implements Serializable {
                 j.setForce(newForce);
 
                 // after jedi is demoted, don't check the rest jedies
-                return "Jedi " + jediName + " has been demoted to " + newRank + ". His/her force is now " + newForce + " .";
+                return "Jedi " + jediName + " has been demoted to " + newRank + ". His/her force is now " + newForce;
             }
         }
         return "No jedi named " + jediName + "!";

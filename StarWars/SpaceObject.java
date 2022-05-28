@@ -38,22 +38,30 @@ public abstract class SpaceObject implements Serializable {
     @Override
     public String toString() {
         StringBuilder output = new StringBuilder();
-        Map<String, String> jediesInfo = new HashMap<>();
+        Map<String, Integer> jediesInfo = new HashMap<>();
+        Map<String, Integer> jediesRanks = new HashMap<>();
 
-        for (Jedi j: this.jedies) {   // if jedi has the wanted rank, count the saber color
-            jediesInfo.put(j.getRank(), j.getName());
+        // fill map with ranks with id from 0 to 7
+        for (int i = 0; i < JediRanks.values().length; ++i) {
+            jediesRanks.put(JediRanks.values()[i].toString(), i);
+        }
+
+        for (Jedi j: this.jedies) {   // put in this map the equivalent of the rank id from map jediesRanks
+            jediesInfo.put(j.getName(), jediesRanks.get(j.getRank()));
         }
 
         if (jediesInfo.isEmpty()) {   // check if there are jedies
             output.append("none\n");
         }
         else {
-            List<Map.Entry<String, String>> jediesInfoList = new ArrayList<>(jediesInfo.entrySet());
-            jediesInfoList.sort(Map.Entry.comparingByValue());
+            List<Map.Entry<String, Integer>> jediesInfoList = new ArrayList<>(jediesInfo.entrySet());
+
+            jediesInfoList.sort(Map.Entry.comparingByValue());  // sort by rank id then
+            jediesInfoList.sort(Map.Entry.comparingByKey());    // sort by name
 
             for (Jedi j : this.jedies) {
-                for (Map.Entry<String, String> var : jediesInfoList) {
-                    if (var.getValue().equals(j.getName())) {
+                for (Map.Entry<String, Integer> var : jediesInfoList) {
+                    if (var.getKey().equals(j.getName())) {
                         output.append(j).append('\n');
                         break;
                     }
