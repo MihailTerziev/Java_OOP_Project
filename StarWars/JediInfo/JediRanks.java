@@ -1,4 +1,4 @@
-package Java_OOP_Project.StarWars;
+package Java_OOP_Project.StarWars.JediInfo;
 
 public enum JediRanks {
     YOUNGLING,

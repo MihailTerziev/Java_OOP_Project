@@ -1,4 +1,6 @@
-package Java_OOP_Project.StarWars;
+package Java_OOP_Project.StarWars.JediInfo;
+
+import Java_OOP_Project.StarWars.Space.InvalidDataException;
 
 import java.io.Serializable;
 

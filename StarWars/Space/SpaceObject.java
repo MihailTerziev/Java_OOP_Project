@@ -1,4 +1,7 @@
-package Java_OOP_Project.StarWars;
+package Java_OOP_Project.StarWars.Space;
+
+import Java_OOP_Project.StarWars.JediInfo.Jedi;
+import Java_OOP_Project.StarWars.JediInfo.JediRanks;
 
 import java.io.Serializable;
 import java.util.*;
@@ -27,11 +30,11 @@ public abstract class SpaceObject implements Serializable {
         return jedies;
     }
 
-    protected void addJedi(Jedi jedi) {
+    public void addJedi(Jedi jedi) {
         jedies.add(jedi);
     }
 
-    protected void removeJedi(Jedi jedi) {
+    public void removeJedi(Jedi jedi) {
         jedies.remove(jedi);
     }
 

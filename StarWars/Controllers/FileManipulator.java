@@ -1,4 +1,4 @@
-package Java_OOP_Project.StarWars;
+package Java_OOP_Project.StarWars.Controllers;
 
 import java.io.*;
 import java.nio.file.Files;

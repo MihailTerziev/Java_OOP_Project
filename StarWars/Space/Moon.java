@@ -1,4 +1,4 @@
-package Java_OOP_Project.StarWars;
+package Java_OOP_Project.StarWars.Space;
 
 public class Moon extends SpaceObject {
     private String planet;  // orbiting around a planet

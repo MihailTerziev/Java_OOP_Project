@@ -1,5 +1,9 @@
 package Java_OOP_Project.StarWars;
 
+import Java_OOP_Project.StarWars.Controllers.Controller;
+import Java_OOP_Project.StarWars.Controllers.FileManipulator;
+import Java_OOP_Project.StarWars.Space.InvalidDataException;
+
 import java.io.IOException;
 import java.util.Scanner;
 

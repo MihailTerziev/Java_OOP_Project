@@ -1,4 +1,11 @@
-package Java_OOP_Project.StarWars;
+package Java_OOP_Project.StarWars.Controllers;
+
+import Java_OOP_Project.StarWars.JediInfo.Jedi;
+import Java_OOP_Project.StarWars.JediInfo.JediRanks;
+import Java_OOP_Project.StarWars.Space.InvalidDataException;
+import Java_OOP_Project.StarWars.Space.Moon;
+import Java_OOP_Project.StarWars.Space.Planet;
+import Java_OOP_Project.StarWars.Space.SpaceObject;
 
 import java.io.Serializable;
 import java.util.*;

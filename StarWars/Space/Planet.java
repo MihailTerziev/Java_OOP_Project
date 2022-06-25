@@ -1,4 +1,4 @@
-package Java_OOP_Project.StarWars;
+package Java_OOP_Project.StarWars.Space;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +15,11 @@ public class Planet extends SpaceObject {
         return moons;
     }
 
-    protected void addMoon(Moon moon) {
+    public void addMoon(Moon moon) {
         moons.add(moon);
     }
 
-    protected void removeMoon(Moon moon) {
+    public void removeMoon(Moon moon) {
         moons.remove(moon);
     }
 
