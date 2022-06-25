@@ -1,14 +1,12 @@
-package Java_OOP_Project.StarWars;
+package Java_OOP_Project.StarWars.Controllers;
 
-import Java_OOP_Project.StarWars.Controllers.Controller;
-import Java_OOP_Project.StarWars.Controllers.FileManipulator;
 import Java_OOP_Project.StarWars.Space.InvalidDataException;
 
 import java.io.IOException;
 import java.util.Scanner;
 
-public class MainMenu {
-    public static void main(String[] args) throws InvalidDataException, IOException, ClassNotFoundException {
+public class Menu {
+    public void startMenu() throws InvalidDataException, IOException, ClassNotFoundException {
         Controller con = new Controller();
         FileManipulator operation = new FileManipulator();
 
@@ -44,13 +42,25 @@ public class MainMenu {
 
                     case "help":
                         System.out.println(
-                                        "\nThe following commands are supported:\n" +
-                                        "open <file>     opens <file>\n" +
-                                        "close           closes currently opened file\n" +
-                                        "save            saves the currently open file\n" +
-                                        "saveas <file>   saves the currently open file in <file>\n" +
-                                        "help            prints this information\n" +
-                                        "exit            exists the program\n"
+                                "\nThe following commands are supported:\n" +
+                                "open <file>                                   opens <file>\n" +
+                                "close                                         closes currently opened file\n" +
+                                "save                                          saves the currently open file\n" +
+                                "saveas <file>                                 saves the currently open file in <file>\n" +
+                                "help                                          prints this information\n" +
+                                "exit                                          exists the program\n" +
+                                "add_planet <name>                             creates planet\n" +
+                                "add_moon <name> <planet>                      creates moon and adds it to planet\n" +
+                                "create_jedi <planet/moon> <name> <rank> <age> <saber_color> <force>    creates jedi\n" +
+                                "remove_jedi <name> <planet/moon>              removes jedi from planet or moon\n" +
+                                "promote_jedi <name> <multiplier>              gives upper rank and increases strength of jedi\n" +
+                                "demote_jedi <name> <multiplier>               gives lower rank and decreases strength of jedi\n" +
+                                "get_strongest_jedi <planet>                   gives info about strongest jedi on a planet\n" +
+                                "get_youngest_jedi <planet> <rank>             gives info about youngest jedi by certain rank on a planet\n" +
+                                "get_most_used_saber_color <planet> <rank>     prints most used color of certain rank jedies on a planet\n" +
+                                "get_most_used_saber_color <planet>            prints most used color of GRAND_MASTER rank jedies on a planet\n" +
+                                "print <name>                                  prints info about the name, no matter if it's jedi or planet/moon\n" +
+                                "<planet> + <planet>                           prints combined info about two planets\n"
                         );
                         break;
 
